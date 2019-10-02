@@ -27,7 +27,16 @@ function handleBeginQuiz() {
 }
 
 function showSummary() {
-  alert("you've reached the end of the quiz");
+  let quiz = QUIZ;
+  //hide quiz
+  $(".js-quiz-form").toggleClass("hidden");
+  //show results
+  $("#js-results-container").toggleClass("hidden");
+  let results = $("#js-quiz-results");  
+  results.text(`your total score is ${quiz.correctAnswers}/${quiz.totalQuestions}`);
+
+  //hide quiz
+  //show button again
 }
 
 function handleAnswerSubmit() {
@@ -42,17 +51,20 @@ function handleAnswerSubmit() {
     let currentQuestion = quiz.questions[quiz.currentQuestion];
     if(userAnswer == currentQuestion.answer) {
       alert("your answer is correct!");
-      // if this is final question, show summary
-      // otherwise, next question
-      if (quiz.currentQuestion + 1 === quiz.totalQuestions) {
-        showSummary();
-      } else {
-        quiz.currentQuestion ++;
-        showNextQuestion();
-      }
+      quiz.correctAnswers++;
     } else {
-      alert(`your answer is incorrect.\nthe correct answer is ${currentQuestion.answer}\nplease try again.`);
+      alert(`your answer is incorrect.\nthe correct answer is ${currentQuestion.answer}`);
     }
+
+    // if this is final question, show summary
+    // otherwise, next question
+    if (quiz.currentQuestion + 1 === quiz.totalQuestions) {
+      showSummary();
+    } else {
+      quiz.currentQuestion ++;
+      showNextQuestion();
+    }
+
   });
 }
 
