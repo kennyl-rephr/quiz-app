@@ -19,6 +19,12 @@ function handleBeginQuiz() {
   $("#js-btn-begin-quiz").click(function(event) {
     // hide begin button
     $(this).toggleClass("hidden");
+    //reset QUIZ stats
+    let quiz = QUIZ;
+    quiz.correctAnswers = 0;
+    quiz.currentQuestion = 0;
+    //hide summary if it's showing
+    $("#js-results-container").addClass("hidden");
     // show the form
     $(".js-quiz-form").toggleClass("hidden");
     // show question 1
@@ -34,7 +40,7 @@ function showSummary() {
   $("#js-results-container").toggleClass("hidden");
   let results = $("#js-quiz-results");
   results.text(`your total score is ${quiz.correctAnswers}/${quiz.totalQuestions}`);
-
+  showBeginButton();
   //hide quiz
   //show button again
 }
