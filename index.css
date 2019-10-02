@@ -1,0 +1,20 @@
+h1 {
+  text-align: center;
+}
+
+.js-quiz-container {
+  margin: auto;
+  width: 400px;
+}
+
+#js-btn-begin-quiz {
+
+}
+
+.hidden {
+  display: none;
+}
+
+form > input {
+  margin-top: 15px;
+}
