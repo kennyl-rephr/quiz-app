@@ -12,7 +12,7 @@ const QUIZ = {
 
 function showBeginButton() {
   // display the button
-  $(".js-quiz-container").append("<button type='button' id='js-btn-begin-quiz'>begin quiz</button>");
+  $("#js-btn-begin-quiz").toggleClass("hidden");
 }
 
 function handleBeginQuiz() {
@@ -32,7 +32,7 @@ function showSummary() {
   $(".js-quiz-form").toggleClass("hidden");
   //show results
   $("#js-results-container").toggleClass("hidden");
-  let results = $("#js-quiz-results");  
+  let results = $("#js-quiz-results");
   results.text(`your total score is ${quiz.correctAnswers}/${quiz.totalQuestions}`);
 
   //hide quiz
