@@ -1,18 +1,21 @@
 const QUIZ = {
   currentQuestion: 0,
-  totalQuestions: 4,
+  totalQuestions: 5,
   correctAnswers: 0,
   questions: [
-    { name: "question 1 title", options: ["option 11","option 21","option 31","option 41"], answer: 1},
-    { name: "question 2 title", options: ["option 12","option 22","option 32","option 42"], answer: 2},
-    { name: "question 3 title", options: ["option 13","option 23","option 33","option 43"], answer: 3},
-    { name: "question 4 title", options: ["option 14","option 24","option 34","option 44"], answer: 4},
+    { name: "which country is the wine Bourdeaux from?", options: ["USA","Canada","France","Italy"], answer: 3},
+    { name: "In addition to California, Chardonnay is also commonly produced in:", options: ["Tuscany","Oregon","New Zealand","Burgandy"], answer: 4},
+    { name: "Champagne is only produced in", options: ["Italy","France","Spain","USA"], answer: 2},
+    { name: "how long is a bottle of opened red wine good for before it oxidizes and deteriorates?", options: ["24 hours","2-3 days","1 week","2 weeks"], answer: 2},
+    { name: "why should you always hold the wine glass by the stem, and not the bowl?", options: ["basic dining etiquatte","avoid dirtying wine glass","avoid changing the temperature of the wine","looks cooler"], answer: 3},
   ]
 };
 
 function showBeginButton() {
   // display the button
-  $("#js-btn-begin-quiz").toggleClass("hidden");
+  $("#js-btn-begin-quiz").removeClass("hidden");
+  // hide progress tracker
+  $("#js-progress-container").addClass("hidden");
 }
 
 function handleBeginQuiz() {
@@ -20,64 +23,102 @@ function handleBeginQuiz() {
     // hide begin button
     $(this).toggleClass("hidden");
     //reset QUIZ stats
-    let quiz = QUIZ;
-    quiz.correctAnswers = 0;
-    quiz.currentQuestion = 0;
+    QUIZ.correctAnswers = 0;
+    QUIZ.currentQuestion = 0;
     //hide summary if it's showing
     $("#js-results-container").addClass("hidden");
     // show the form
     $(".js-quiz-form").toggleClass("hidden");
+    // show progress container
+    $("#js-progress-container").toggleClass("hidden");
+    // initialize progress container
+    $("#js-current-question").text(QUIZ.currentQuestion+1);
+    $("#js-correct-answers").text(QUIZ.correctAnswers);
+    $("#js-total-questions").text(QUIZ.totalQuestions);
     // show question 1
     showNextQuestion();
   })
 }
 
+function handleNextQuestion() {
+  $("#js-btn-next-question").click(function(event) {
+    // hide answer feedback
+    $("#js-answer-feedback").css("visibility", "hidden");
+    // set radio button checked to 1st option
+    $("#js-option1").prop("checked", true)
+    //enable submit button
+    $("#js-btn-submit").attr("disabled", false);
+
+    // if this is final question, show summary
+    // otherwise, next question
+    if (QUIZ.currentQuestion + 1 === QUIZ.totalQuestions) {
+      showSummary();
+    } else {
+      QUIZ.currentQuestion ++;
+      showNextQuestion();
+    }
+  });
+}
+
 function showSummary() {
-  let quiz = QUIZ;
   //hide quiz
   $(".js-quiz-form").toggleClass("hidden");
+  // hide next question button
+  $("#js-btn-next-question").css("visibility","hidden");
   //show results
   $("#js-results-container").toggleClass("hidden");
   let results = $("#js-quiz-results");
-  results.text(`your total score is ${quiz.correctAnswers}/${quiz.totalQuestions}`);
+  results.text(`your total score is ${QUIZ.correctAnswers}/${QUIZ.totalQuestions}`);
+  // give option to start quiz again
+  // change button name to "restart quiz"
+  $("#js-btn-begin-quiz").text("restart quiz");
   showBeginButton();
-  //hide quiz
-  //show button again
 }
 
 function handleAnswerSubmit() {
-  console.log("in handleAnswerSubmit");
   $(".js-quiz-form").submit(function(event) {
     // stop form from submitting
     event.preventDefault();
     // console.log($("input[name='options']:checked").val());
     // check the answer and display feedback
-    let quiz = QUIZ;
     let userAnswer = $("input[name='options']:checked").val();
-    let currentQuestion = quiz.questions[quiz.currentQuestion];
+    let currentQuestion = QUIZ.questions[QUIZ.currentQuestion];
     if(userAnswer == currentQuestion.answer) {
-      alert("your answer is correct!");
-      quiz.correctAnswers++;
+
+      $("#js-answer-feedback").removeClass();
+      $("#js-answer-feedback").css("visibility", "visible");
+      $("#js-answer-feedback").text("your answer is correct!")
+      $("#js-answer-feedback").addClass("correct");
+
+      QUIZ.correctAnswers++;
     } else {
-      alert(`your answer is incorrect.\nthe correct answer is ${currentQuestion.answer}`);
+
+      $("#js-answer-feedback").removeClass();
+      $("#js-answer-feedback").css("visibility", "visible");
+      $("#js-answer-feedback").text(`your answer is incorrect.\nthe correct answer is ${currentQuestion.options[currentQuestion.answer-1]}`)
+      $("#js-answer-feedback").addClass("incorrect");
+
     }
 
-    // if this is final question, show summary
-    // otherwise, next question
-    if (quiz.currentQuestion + 1 === quiz.totalQuestions) {
-      showSummary();
-    } else {
-      quiz.currentQuestion ++;
-      showNextQuestion();
-    }
+    //update progress tracker
+    $("#js-current-question").text(QUIZ.currentQuestion+1);
+    $("#js-correct-answers").text(QUIZ.correctAnswers);
+    $("#js-total-questions").text(QUIZ.totalQuestions);
+
+    // show next question button
+    $("#js-btn-next-question").css("visibility", "visible");
+
+    //disable submit button
+    $("#js-btn-submit").attr("disabled", true);
 
   });
 }
 
 function showNextQuestion() {
+  // hide next question button
+  $("#js-btn-next-question").css("visibility", "hidden");
   // check which question we at
-  let quiz = QUIZ;
-  let currentQuestion = quiz.questions[quiz.currentQuestion];
+  let currentQuestion = QUIZ.questions[QUIZ.currentQuestion];
 
   let title = $("#js-question-title");
   // get handle for question Title
@@ -93,6 +134,8 @@ function showNextQuestion() {
   option3.text(currentQuestion.options[2]);
   option4.text(currentQuestion.options[3]);
 
+
+
 }
 
 $(function() {
@@ -102,5 +145,6 @@ $(function() {
   // if next question button is pressed, show next question. if this is the last question, show quiz summary
   showBeginButton();
   handleBeginQuiz();
+  handleNextQuestion();
   handleAnswerSubmit();
 });

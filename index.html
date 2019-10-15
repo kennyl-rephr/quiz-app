@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -9,7 +9,7 @@
   </head>
   <body>
     <main>
-      <h1>Quiz Title</h1>
+      <h1>wine 101</h1>
       <div class="js-quiz-container">
         <form class="js-quiz-form hidden">
           <h2 id="js-question-title">This is the question</h2>
@@ -29,11 +29,18 @@
             <input type="radio" id="js-option4" name="options" value="4">
             <label id="js-label-option4" for="js-option4">option 4</label>
           </div>
-          <input type="submit" value="submit answer">
+          <div style="visibility: hidden;" id="js-answer-feedback">feedback goes here</div>
+          <input type="submit" value="submit answer" id="js-btn-submit">
         </form>
+        <button style="visibility: hidden;" type='button' id='js-btn-next-question'>>> next question</button>
         <div id="js-results-container" class="hidden">
           <h1>results</h1>
           <h2 id="js-quiz-results"></h2>
+        </div>
+        <div id="js-progress-container">
+          <h2>progress tracker</h2>
+          <p>question <span id="js-current-question"></span> of <span id="js-total-questions"></span>
+          <p>so far, you've answered <span id="js-correct-answers"></span> correctly.
         </div>
         <button class="hidden" type='button' id='js-btn-begin-quiz'>begin quiz</button>
       </div>
