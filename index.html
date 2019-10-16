@@ -13,22 +13,24 @@
       <div class="js-quiz-container">
         <form class="js-quiz-form hidden">
           <h2 id="js-question-title">This is the question</h2>
-          <div>
-            <input type="radio" id="js-option1" name="options" value="1" checked>
-            <label id="js-label-option1" for="js-option1">option 1</label>
-          </div>
-          <div>
-            <input type="radio" id="js-option2" name="options" value="2">
-            <label id="js-label-option2" for="js-option2">option 2</label>
-          </div>
-          <div>
-            <input type="radio" id="js-option3" name="options" value="3">
-            <label id="js-label-option3" for="js-option3">option 3</label>
-          </div>
-          <div>
-            <input type="radio" id="js-option4" name="options" value="4">
-            <label id="js-label-option4" for="js-option4">option 4</label>
-          </div>
+          <ul class="form__list--no-dots">
+            <li>
+              <input type="radio" id="js-option1" name="options" value="1" checked>
+              <label id="js-label-option1" for="js-option1">option 1</label>
+            </li>
+            <li>
+              <input type="radio" id="js-option2" name="options" value="2">
+              <label id="js-label-option2" for="js-option2">option 2</label>
+            </li>
+            <li>
+              <input type="radio" id="js-option3" name="options" value="3">
+              <label id="js-label-option3" for="js-option3">option 3</label>
+            </li>
+            <li>
+              <input type="radio" id="js-option4" name="options" value="4">
+              <label id="js-label-option4" for="js-option4">option 4</label>
+            </li>
+          </ul>
           <div style="visibility: hidden;" id="js-answer-feedback">feedback goes here</div>
           <input type="submit" value="submit answer" id="js-btn-submit">
         </form>
@@ -36,6 +38,7 @@
         <div id="js-results-container" class="hidden">
           <h1>results</h1>
           <h2 id="js-quiz-results"></h2>
+          <div id="js-detailed-summary"></div>
         </div>
         <div id="js-progress-container">
           <h2>progress tracker</h2>

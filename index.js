@@ -3,11 +3,11 @@ const QUIZ = {
   totalQuestions: 5,
   correctAnswers: 0,
   questions: [
-    { name: "which country is the wine Bourdeaux from?", options: ["USA","Canada","France","Italy"], answer: 3},
-    { name: "In addition to California, Chardonnay is also commonly produced in:", options: ["Tuscany","Oregon","New Zealand","Burgandy"], answer: 4},
-    { name: "Champagne is only produced in", options: ["Italy","France","Spain","USA"], answer: 2},
-    { name: "how long is a bottle of opened red wine good for before it oxidizes and deteriorates?", options: ["24 hours","2-3 days","1 week","2 weeks"], answer: 2},
-    { name: "why should you always hold the wine glass by the stem, and not the bowl?", options: ["basic dining etiquatte","avoid dirtying wine glass","avoid changing the temperature of the wine","looks cooler"], answer: 3},
+    { name: "1. which country is the wine Bourdeaux from?", options: ["USA","Canada","France","Italy"], answer: 3, submittedAnswer: 1},
+    { name: "2. In addition to California, Chardonnay is also commonly produced in:", options: ["Tuscany","Oregon","New Zealand","Burgandy"], answer: 4, submittedAnswer: 1},
+    { name: "3. Champagne is only produced in", options: ["Italy","France","Spain","USA"], answer: 2, submittedAnswer: 1},
+    { name: "4. how long is a bottle of opened red wine good for before it oxidizes and deteriorates?", options: ["24 hours","2-3 days","1 week","2 weeks"], answer: 2, submittedAnswer: 1},
+    { name: "5. why should you always hold the wine glass by the stem, and not the bowl?", options: ["basic dining etiquatte","avoid dirtying wine glass","avoid changing the temperature of the wine","looks cooler"], answer: 3, submittedAnswer: 1},
   ]
 };
 
@@ -16,6 +16,19 @@ function showBeginButton() {
   $("#js-btn-begin-quiz").removeClass("hidden");
   // hide progress tracker
   $("#js-progress-container").addClass("hidden");
+}
+
+function generateSummary() {
+  let summaryString = "";
+
+  for (i=0; i < QUIZ.totalQuestions; i++ ) {
+    let question = QUIZ.questions[i];
+    let correctAnswer = question.options[question.answer-1]
+    summaryString += `<div>${question.name}<br/>correct answer: ${correctAnswer}<br/></div>`
+  }
+  $("#js-detailed-summary")[0].innerHTML = summaryString;
+  console.log(summaryString);
+  console.log($("#js-detailed-summary"));
 }
 
 function handleBeginQuiz() {
@@ -69,6 +82,7 @@ function showSummary() {
   $("#js-results-container").toggleClass("hidden");
   let results = $("#js-quiz-results");
   results.text(`your total score is ${QUIZ.correctAnswers}/${QUIZ.totalQuestions}`);
+  generateSummary();
   // give option to start quiz again
   // change button name to "restart quiz"
   $("#js-btn-begin-quiz").text("restart quiz");
@@ -100,8 +114,11 @@ function handleAnswerSubmit() {
 
     }
 
+    //save submitted answer
+    QUIZ.
+
     //update progress tracker
-    $("#js-current-question").text(QUIZ.currentQuestion+1);
+
     $("#js-correct-answers").text(QUIZ.correctAnswers);
     $("#js-total-questions").text(QUIZ.totalQuestions);
 
@@ -134,7 +151,8 @@ function showNextQuestion() {
   option3.text(currentQuestion.options[2]);
   option4.text(currentQuestion.options[3]);
 
-
+  //update progress tracker
+  $("#js-current-question").text(QUIZ.currentQuestion+1);
 
 }
 

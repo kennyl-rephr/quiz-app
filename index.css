@@ -50,3 +50,8 @@ main {
   border-width: 1px;
   border-color: black;
 }
+
+.form__list--no-dots {
+  list-style: none;
+  padding-left: 0;
+}
